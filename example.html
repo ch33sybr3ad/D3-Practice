@@ -21,16 +21,17 @@
     
   var randomCircles = function() {
     console.log('running');
-    var data = [ 
-      Math.floor(Math.random()*50+10), 
-      Math.floor(Math.random()*50+10),
-      Math.floor(Math.random()*50+10), 
-      Math.floor(Math.random()*50+10)
-      ]
-    var color = d3.scale.linear()
-                .domain([0, 60])
-                .range(["red", "blue"]);
 
+    var data = [];
+    var circleCount = 10;
+    var circleRadius = 50;
+    var baseRadius = 10
+
+    for (var i=0; i < circleCount; i++) {
+      data.push(Math.floor(Math.random()*circleRadius + baseRadius));
+    }
+
+    var color = d3.scale.category10()
 
     var circles = canvas.selectAll("circle")
                   .data(data)
@@ -38,23 +39,26 @@
                   .append("circle")
                     .attr("cx", function (d) { return Math.floor(Math.random()*350) } )
                     .attr("cy", function (d) { return Math.floor(Math.random()*350) } )
-                    .style("stroke", "green")
+                    .style("stroke", function(d) { return color(d)} )
                     .style("stroke-width", 4)
                     .style("fill", "none")
                     .attr("r", function (d) { return d } );
 
     circles.transition()
-      .duration(1000)
-      .delay(2000)
+      .duration(2000)
+      .delay(1000)
       .attr("cx", 150)
+      .transition()
+      .duration(2000)
+      .attr("cy", 150)
 
     remove = function() {d3.selectAll("circle")
        .remove();
       }
-    setTimeout(remove, 3000);
+    setTimeout(remove, 5500);
   }
 
-  setInterval(randomCircles, 3200)
+  setInterval(randomCircles, 6000)
 
   </script>
 
